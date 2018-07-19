@@ -4,17 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Task extends Model
 {
-    protected $table = 'users';
+    protected $table = 'task';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'user_name', 'e_mail', 'password',
+        'task_name', 'contents', 'time',
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'remember_token',
     ];
 }

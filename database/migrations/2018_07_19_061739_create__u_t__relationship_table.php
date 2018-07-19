@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateUTRelationshipTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('UTR', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('user_name');
-            $table->string('e_mail');
-            $table->string('password');
+            $table->integer('uer_id')->unsigned();
+            $table->integer('task_id')->unsigned();
+            $table->foreign('uer_id')->references('id')->on('users');
+            $table->foreign('task_id')->references('id')->on('task');
         });
     }
 
@@ -28,6 +29,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('UTR');
     }
 }
