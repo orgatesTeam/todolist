@@ -131,5 +131,13 @@ class StudentController extends Controller
     public function destroy($id)
     {
         //
+        $student = Student::find($id);
+
+        $student->delete();
+
+        // 紀錄更新成功訊息
+        session()->flash('message', $student['name'] . ' deleted successfully!');
+
+        return redirect('/');
     }
 }

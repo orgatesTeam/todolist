@@ -36,7 +36,12 @@
                     <td class="center-align"> {{ $student->mobile }} </td>
                     <td class="center-align">
                         <a class="waves-effect waves-light btn" href="{{ url("/students/$student->id/edit") }}">Edit</a>
-                        <a class="waves-effect waves-light btn red lighten-1" href="">Delete</a>
+                        <form action="{{ url("/students/$student->id") }}" method="post" id="form2">
+                            {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
+                            {{-- <a class="waves-effect waves-light btn red lighten-1" href="javascript:void(0);" onclick="$('#form2').submit()">Delete</a> --}}
+                            <button class="waves-effect waves-light btn red lighten-1" type="submit">Delete</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
