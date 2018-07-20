@@ -33,10 +33,18 @@ class TestController extends Controller
         $utr->save();
     }
 
-    public function research(Request $request){ 
+    public function research(Request $request){
 
         $tasks = User::find($request->id)->tasks;
 
         return response()->json($tasks);
     }
+
+    public function destroy(Request $request){
+
+        $task = Task::find($request->id);
+
+        $task->delete();
+    }
+
 }
