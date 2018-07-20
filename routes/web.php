@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', 'StudentController@index');
+Route::prefix('students')->group(function () {
+    Route::get('/', 'StudentController@index');
+    Route::get('/create', 'StudentController@create');
+    Route::post('/create', 'StudentController@store');
+    Route::get('/{id}/edit', 'StudentController@edit');
+    Route::put('/{id}', 'StudentController@update');
 });
