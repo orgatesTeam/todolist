@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Task;
-use App\UTRelation;
+use \App\User;
+use \App\Task;
+use \App\UTRelation;
 
 class TestController extends Controller
 {
@@ -23,14 +23,20 @@ class TestController extends Controller
         $task->task_name = $request->task_name;
         $task->contents = $request->contents;
         $task->time = $request->time;
-        $task->uer_id = $user->id;
+        $task->user_id = $user->id;
         $task->save();
 
         $utr = new UTRelation();
 
-        $utr->uer_id = $user->id;
+        $utr->user_id = $user->id;
         $utr->task_id = $task->id;
         $utr->save();
+    }
 
+    public function research(Request $request){ 
+
+        $tasks = User::find($request->id)->tasks;
+
+        return response()->json($tasks);
     }
 }

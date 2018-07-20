@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UTRelation extends Model
 {
-    protected $table = 'utr';
+    protected $table = 'task_user';
 
     public $timestamps = false;
 }
