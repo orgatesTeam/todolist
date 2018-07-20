@@ -47,4 +47,16 @@ class TestController extends Controller
         $task->delete();
     }
 
+    public function update(Request $request){
+
+        $input = $request->only('user_name','e_mail','password');
+
+        User::find($request->id)->update($input);
+
+        $input = $request->only('task_name','contents','time');
+        
+        Task::where('user_id','=',$request->id)->update($input);
+
+    }
+
 }
