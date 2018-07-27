@@ -5,57 +5,68 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\User;
 use \App\Task;
-use \App\UTRelation;
+use Illuminate\Support\Facades\Validator;
 
 class TestController extends Controller
 {
-    public function create(Request $request){
+    public function store($id, Request $request){
 
-        $user = new User();
+        $validator = Validator::make($request->all(),[
+            'time' => 'date|filled',
+            'task_name' => 'min:4|filled',
+            'contents' => 'filled'
+        ]);
 
-        $user->user_name = $request->user_name;
-        $user->e_mail = $request->e_mail;
-        $user->password = $request->password;
-        $user->save();
+       if($validator->fails()){
+            return response()->json($validator->errors());
+        }
 
         $task = new Task();
 
         $task->task_name = $request->task_name;
         $task->contents = $request->contents;
         $task->time = $request->time;
-        $task->user_id = $user->id;
+        $task->user_id = $id;
+
         $task->save();
 
-        $utr = new UTRelation();
-
-        $utr->user_id = $user->id;
-        $utr->task_id = $task->id;
-        $utr->save();
     }
 
-    public function research(Request $request){
+    public function research($id){
 
-        $tasks = User::find($request->id)->tasks;
+        $tasks = User::find($id)->tasks;
 
         return response()->json($tasks);
     }
 
-    public function destroy(Request $request){
+    public function destroy($id){
 
-        $task = Task::find($request->id);
+        $task = Task::find($id);
 
         $task->delete();
     }
 
-    public function update(Request $request){
+    public function update($id, Request $request){
 
-        $input = $request->only('user_name','e_mail','password');
+       $validator = $request->validate([
+            'e_mail' => 'email',
+            'date' => 'date',
+            'user_name' => 'min:4',
+            'task_name' => 'min:4',
+            'password' => 'min:6|alpha_num'
+        ]);
 
-        User::find($request->id)->update($input);
+       if($validator->fail()){
+           return response()->json($validator->errors());
+       }
 
-        $input = $request->only('task_name','contents','time');
-        
-        Task::where('user_id','=',$request->id)->update($input);
+        $input_user = $request->only('user_name','e_mail','password');
+
+        User::find($id)->update($input_user);
+
+        $input_task = $request->only('task_name','contents','time');
+
+        Task::where('user_id','=',$id)->update($input_task);
 
     }
 
